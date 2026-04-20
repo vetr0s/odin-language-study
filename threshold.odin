@@ -41,18 +41,20 @@ die :: proc(msg: string, args: ..any) -> ! {
     os.exit(1)
 }
 
-// Strip PGM/PBM comment lines (anything from '#' to end of line) so the
-// remaining text can be tokenised as whitespace-separated numbers and magic.
+// Strip Netpbm comments. Per the PGM/PBM spec, a '#' character begins a
+// comment that runs to the end of the line. This handles both whole-line
+// comments (the assignment's simpler case) and inline comments that real
+// tools sometimes emit, e.g. "4 4 4 # row of fours".
 strip_comments :: proc(src: string, allocator := context.allocator) -> string {
     b := strings.builder_make(allocator)
     s := src
     for line in strings.split_lines_iterator(&s) {
-        trimmed := strings.trim_left_space(line)
-        if len(trimmed) > 0 && trimmed[0] == '#' {
-            strings.write_byte(&b, '\n')
-            continue
+        hash_idx := strings.index_byte(line, '#')
+        if hash_idx < 0 {
+            strings.write_string(&b, line)
+        } else {
+            strings.write_string(&b, line[:hash_idx])
         }
-        strings.write_string(&b, line)
         strings.write_byte(&b, '\n')
     }
     return strings.to_string(b)
@@ -86,7 +88,7 @@ read_pgm :: proc(path: string) -> (img: Image, ok: bool) {
     }
 
     parse :: proc(tok: string, what: string) -> (int, bool) {
-        v, pok := strconv.parse_int(tok)
+        v, pok := strconv.parse_int(tok, 10)
         if !pok {
             fmt.eprintfln("threshold: cannot parse %s from %q", what, tok)
             return 0, false

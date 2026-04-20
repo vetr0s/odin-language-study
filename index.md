@@ -101,11 +101,10 @@ Topic 2 covered four categories of desirable characteristics: Efficiency, Regula
 
 **Where efficiency comes at a cost.** The programmer owns memory lifetime. Beginners hit use-after-free and leak bugs that a garbage-collected language would never allow. The tracking allocator catches leaks in debug builds, but dangling pointers are on you. In short, Odin hands you a sharp knife and trusts you to hold it by the handle. That tradeoff is the one Odin is most willing to make: efficient by default, safe only if you write it safely.
 
----
 
-## About the Common Program (Part 2)
+## About the Common Program
 
-The Part 2 submission is a global-thresholding image segmenter written in Odin. It reads an ASCII PGM (P2) file from the command line. It then converges on a threshold using the two-means algorithm from the assignment. The algorithm starts from the mean of 10 randomly chosen pixels. It repeatedly sets the threshold to the mean of the below-threshold and above-threshold partition means. It stops when the change is under 0.001 or 100 iterations have elapsed. Finally, it writes a PBM (P1) file with the same basename.
+The common program is a global-thresholding image segmenter written in Odin. It reads an ASCII PGM (P2) file from the command line. It then converges on a threshold using the two-means algorithm from the assignment. The algorithm starts from the mean of 10 randomly chosen pixels. It repeatedly sets the threshold to the mean of the below-threshold and above-threshold partition means. It stops when the change is under 0.001 or 100 iterations have elapsed. Finally, it writes a PBM (P1) file with the same basename.
 
 The program exercises several parts of Odin's core library. It uses file I/O from [`core:os`](https://pkg.odin-lang.org/core/os/). It uses string tokenization from [`core:strings`](https://pkg.odin-lang.org/core/strings/) and [`core:strconv`](https://pkg.odin-lang.org/core/strconv/). It uses random-number generation from [`core:math/rand`](https://pkg.odin-lang.org/core/math/rand/), seeded from the monotonic clock in [`core:time`](https://pkg.odin-lang.org/core/time/). It also uses the `defer`-based cleanup idiom that stands in for a garbage collector.
 
