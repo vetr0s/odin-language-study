@@ -4,7 +4,7 @@
     CSc 372 — Spring 2026 — Part 2 Common Program
     Author: Nathan Tebbs
     Language: Odin (dev-2026-04)
-    Language study writeup: https://github.com/<user>/372-finalproject  (see README)
+    Language study writeup: https://vetr0s.github.io/odin-language-study
 
     Reads a PGM (P2, ASCII grayscale) image from the path given on the
     command line, computes a global threshold using the iterative two-means
