@@ -1,13 +1,4 @@
----
-title: "Language Study: Odin"
----
-
-**Author:** Nathan Tebbs  
-
----
-
-## Sources
-
+- **Author:** Nathan Tebbs  
 - [Odin official website](https://odin-lang.org/)
 - [Odin FAQ](https://odin-lang.org/docs/faq/) (origin, influences, Pascal-clone prototype)
 - [Odin language overview](https://odin-lang.org/docs/overview/) (syntax, control flow, types)
@@ -18,7 +9,7 @@ title: "Language Study: Odin"
 - Sean Barrett, [the video Ginger Bill credits as inspiration](https://www.youtube.com/watch?v=eAhWIO1Ra6M)
 - [JangaFX](https://jangafx.com/) and [EmberGen showcase on the Odin site](https://odin-lang.org/showcase/embergen/) (production usage)
 
-## (a) History and Current Status
+## History and Current Status
 
 Odin was created by [Ginger Bill](https://www.gingerbill.org/). The [official FAQ](https://odin-lang.org/docs/faq/) puts the start date at "late July 2016" and says the project began "when Ginger Bill was annoyed with programming in C++." His first attempt was not a new language at all. In his own words from [*The Video That Inspired Me To Create Odin*](https://www.gingerbill.org/article/2024/04/04/video-that-inspired-odin/), he "began experimenting with just making an 'augmented' C compiler so that I could add constructs to C which I found to be some of the most annoying things C lacked." The two features he wanted most were slices and `defer`. That C-augmenting experiment became a dead end, so he started fresh.
 
@@ -34,7 +25,7 @@ Odin is used in production today. Ginger Bill works at [JangaFX](https://jangafx
 
 What I find most interesting about Odin is that it is a deliberately *small* language. There is no implicit allocator. There is no runtime garbage collector. There is no class hierarchy. There are no exceptions. All of that is intentionally absent. The goal is that a programmer reading a piece of Odin code can see what it actually does. That minimalism makes Odin unusually readable for a systems language.
 
-## (b) Paradigm
+## Paradigm
 
 Odin is primarily an **imperative and procedural** language with strong **data-oriented** leanings. Here is how you can tell:
 
@@ -45,7 +36,7 @@ Odin is primarily an **imperative and procedural** language with strong **data-o
 
 Odin borrows some conveniences that are common in functional languages. Procedures are first-class values. You can write anonymous procedure literals. The `or_return` and `or_else` operators thread error values through expressions. That said, Odin's anonymous procedures are **not true closures**. They cannot capture local variables at runtime, only compile-time constants. And you would not write an Odin program the way you would write a Haskell one. There is no lazy evaluation, no pervasive immutability, no typeclasses, and no pattern matching beyond `switch` on union variants.
 
-## (c) Typing System
+## Typing System
 
 Odin is **strongly and statically typed**.
 
@@ -56,7 +47,7 @@ Odin is **strongly and statically typed**.
 
 Because the type system is static and strong, almost every bug that would be a runtime type error in a dynamic language surfaces at compile time in Odin.
 
-## (d) Control Structures
+## Control Structures
 
 **Selection:**
 
@@ -77,7 +68,7 @@ Because the type system is static and strong, almost every bug that would be a r
 - `break` and `continue`, optionally with **labels** to target an outer loop.
 - Error-flow operators: `or_return`, `or_else`, `or_break`, `or_continue`. Together they give multi-value error handling a terse style that feels similar to Rust's `?` operator, but without a `Result` type.
 
-## (e) Semantics
+## Semantics
 
 - **Scoping is lexical (static)**, with block scope. Every `{ ... }` opens a new scope. The `using` keyword can promote a struct's fields or an imported package's names into the current scope explicitly.
 - **Constants** use the `::` operator and are fully compile-time evaluated. Examples are `PI :: 3.14159`, `MAX_ITER :: 100`, and `Color :: enum { Red, Green, Blue }`. Constants can be untyped (polymorphic over numeric types) or given an explicit type. Because they exist at compile time, they are usable in `when` branches, array-length positions, and other constant contexts.
@@ -94,7 +85,7 @@ Because the type system is static and strong, almost every bug that would be a r
 
   The [`core:mem` package](https://pkg.odin-lang.org/core/mem/) ships a tracking allocator (`mem.Tracking_Allocator`) that reports leaks in debug builds, and an arena allocator (`mem.Arena`) for bulk deallocation.
 
-## (f) Desirable Language Characteristic: Efficiency
+## Desirable Language Characteristic: Efficiency
 
 Topic 2 covered four categories of desirable characteristics: Efficiency, Regularity, Security and Reliability, and Extensibility. Of those four, **Efficiency** is the one Odin leans hardest into. It is the characteristic that every other design decision seems to serve.
 
